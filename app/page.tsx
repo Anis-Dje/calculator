@@ -136,13 +136,73 @@ const SEMESTER_6_MODULES: Module[] = [
   },
 ]
 
+const SEMESTER_6_OLD_COEF_MODULES: Module[] = [
+  {
+    id: 'advanced-crypto-old',
+    name: 'Advanced Cryptography',
+    coefficient: 4,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'modeling-sim-old',
+    name: 'Modeling and Simulation',
+    coefficient: 3,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'cloud-computing-old',
+    name: 'Cloud Computing',
+    coefficient: 3,
+    examPercentage: 60,
+    caPercentage: 40,
+  },
+  {
+    id: 'advanced-db-old',
+    name: 'Advanced Databases',
+    coefficient: 3,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'mobile-dev-old',
+    name: 'Mobile Development',
+    coefficient: 2,
+    examPercentage: 60,
+    caPercentage: 40,
+  },
+  {
+    id: 'dsp-old',
+    name: 'Digital Signal Processing',
+    coefficient: 3,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'ai-notions-old',
+    name: 'AI Notions and Principles',
+    coefficient: 1,
+    examPercentage: 60,
+    caPercentage: 40,
+  },
+  {
+    id: 'startup-pro-dev-old',
+    name: 'Startup and Professional Development',
+    coefficient: 1,
+    examPercentage: 100,
+    caPercentage: 0,
+  },
+]
+
 export default function GradeCalculator() {
-  const [selectedSemester, setSelectedSemester] = useState<'5' | '6'>('5')
+  const [selectedSemester, setSelectedSemester] = useState<'5' | '6' | '6-old'>('5')
   const [semester5Modules, setSemester5Modules] = useState<Module[]>(SEMESTER_5_MODULES)
   const [semester6Modules, setSemester6Modules] = useState<Module[]>(SEMESTER_6_MODULES)
+  const [semester6OldModules, setSemester6OldModules] = useState<Module[]>(SEMESTER_6_OLD_COEF_MODULES)
   
-  const modules = selectedSemester === '5' ? semester5Modules : semester6Modules
-  const setModules = selectedSemester === '5' ? setSemester5Modules : setSemester6Modules
+  const modules = selectedSemester === '5' ? semester5Modules : selectedSemester === '6' ? semester6Modules : semester6OldModules
+  const setModules = selectedSemester === '5' ? setSemester5Modules : selectedSemester === '6' ? setSemester6Modules : setSemester6OldModules
 
   const handleScoreChange = (id: string, field: 'examScore' | 'caScore', value: string) => {
     setModules(
@@ -199,10 +259,11 @@ export default function GradeCalculator() {
           <p className="text-lg text-zinc-400 mb-6">Calculate your semester average with exam and continuous assessment scores</p>
           
           {/* Semester Selector */}
-          <Tabs value={selectedSemester} onValueChange={(value) => setSelectedSemester(value as '5' | '6')} className="w-full flex justify-center mb-8">
-            <TabsList className="grid w-fit grid-cols-2 bg-zinc-800">
+          <Tabs value={selectedSemester} onValueChange={(value) => setSelectedSemester(value as '5' | '6' | '6-old')} className="w-full flex justify-center mb-8">
+            <TabsList className="grid w-fit grid-cols-3 bg-zinc-800">
               <TabsTrigger value="5" className="data-[state=active]:bg-cyan-600">Semester 5</TabsTrigger>
               <TabsTrigger value="6" className="data-[state=active]:bg-cyan-600">Semester 6</TabsTrigger>
+              <TabsTrigger value="6-old" className="data-[state=active]:bg-cyan-600">Semester 6 Old Coef</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -210,7 +271,9 @@ export default function GradeCalculator() {
         {/* Summary Card */}
         <Card className="mb-8 border-0 shadow-2xl bg-zinc-900 border-zinc-800 overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-6">
-            <CardTitle className="text-2xl text-white">Semester {selectedSemester} Summary</CardTitle>
+            <CardTitle className="text-2xl text-white">
+              {selectedSemester === '6-old' ? 'Semester 6 Old Coef' : `Semester ${selectedSemester}`} Summary
+            </CardTitle>
             <CardDescription className="text-cyan-100 text-base">Overall progress and average</CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
