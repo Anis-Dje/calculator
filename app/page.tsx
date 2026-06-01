@@ -89,8 +89,8 @@ const SEMESTER_6_MODULES: Module[] = [
     id: 'modeling-sim',
     name: 'Modeling and Simulation',
     coefficient: 3,
-    examPercentage: 60,
-    caPercentage: 40,
+    examPercentage: 50,
+    caPercentage: 50,
   },
   {
     id: 'advanced-db',
