@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface Module {
   id: string
@@ -17,7 +18,7 @@ interface Module {
   caScore?: number
 }
 
-const MODULES: Module[] = [
+const SEMESTER_5_MODULES: Module[] = [
   {
     id: 'crypto',
     name: 'Mathematical Tools For Cryptography',
@@ -76,8 +77,72 @@ const MODULES: Module[] = [
   },
 ]
 
+const SEMESTER_6_MODULES: Module[] = [
+  {
+    id: 'advanced-crypto',
+    name: 'Advanced Cryptography',
+    coefficient: 4,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'modeling-sim',
+    name: 'Modeling and Simulation',
+    coefficient: 3,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'advanced-db',
+    name: 'Advanced Databases',
+    coefficient: 2,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'cloud-computing',
+    name: 'Cloud Computing',
+    coefficient: 2,
+    examPercentage: 60,
+    caPercentage: 40,
+  },
+  {
+    id: 'dsp',
+    name: 'Digital Signal Processing',
+    coefficient: 2,
+    examPercentage: 50,
+    caPercentage: 50,
+  },
+  {
+    id: 'mobile-dev',
+    name: 'Mobile Development',
+    coefficient: 2,
+    examPercentage: 60,
+    caPercentage: 40,
+  },
+  {
+    id: 'ai-notions',
+    name: 'AI Notions and Principles',
+    coefficient: 1,
+    examPercentage: 60,
+    caPercentage: 40,
+  },
+  {
+    id: 'startup-pro-dev',
+    name: 'Startup and Professional Development',
+    coefficient: 1,
+    examPercentage: 100,
+    caPercentage: 0,
+  },
+]
+
 export default function GradeCalculator() {
-  const [modules, setModules] = useState<Module[]>(MODULES)
+  const [selectedSemester, setSelectedSemester] = useState<'5' | '6'>('5')
+  const [semester5Modules, setSemester5Modules] = useState<Module[]>(SEMESTER_5_MODULES)
+  const [semester6Modules, setSemester6Modules] = useState<Module[]>(SEMESTER_6_MODULES)
+  
+  const modules = selectedSemester === '5' ? semester5Modules : semester6Modules
+  const setModules = selectedSemester === '5' ? setSemester5Modules : setSemester6Modules
 
   const handleScoreChange = (id: string, field: 'examScore' | 'caScore', value: string) => {
     setModules(
@@ -130,14 +195,22 @@ export default function GradeCalculator() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">Semester 5 Grade Calculator</h1>
-          <p className="text-lg text-zinc-400">Calculate your semester average with exam and continuous assessment scores</p>
+          <h1 className="text-4xl font-bold text-white mb-4">Grade Calculator</h1>
+          <p className="text-lg text-zinc-400 mb-6">Calculate your semester average with exam and continuous assessment scores</p>
+          
+          {/* Semester Selector */}
+          <Tabs value={selectedSemester} onValueChange={(value) => setSelectedSemester(value as '5' | '6')} className="w-full flex justify-center mb-8">
+            <TabsList className="grid w-fit grid-cols-2 bg-zinc-800">
+              <TabsTrigger value="5" className="data-[state=active]:bg-cyan-600">Semester 5</TabsTrigger>
+              <TabsTrigger value="6" className="data-[state=active]:bg-cyan-600">Semester 6</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
         {/* Summary Card */}
         <Card className="mb-8 border-0 shadow-2xl bg-zinc-900 border-zinc-800 overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-6">
-            <CardTitle className="text-2xl text-white">Semester Summary</CardTitle>
+            <CardTitle className="text-2xl text-white">Semester {selectedSemester} Summary</CardTitle>
             <CardDescription className="text-cyan-100 text-base">Overall progress and average</CardDescription>
           </CardHeader>
           <CardContent className="pt-6">

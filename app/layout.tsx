@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Semester 5 Grade Calculator',
-  description: 'Calculate your semester 5 average with exam and continuous assessment scores',
+  title: 'Grade Calculator - Semester 5 & 6',
+  description: 'Calculate your semester average with exam and continuous assessment scores for both semester 5 and 6',
   generator: 'v0.app',
   icons: {
     icon: [
